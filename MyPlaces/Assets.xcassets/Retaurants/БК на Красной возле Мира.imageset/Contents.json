@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "БК на Красной возле Мира@3x-2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "БК на Красной возле Мира@3x-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "БК на Красной возле Мира@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
