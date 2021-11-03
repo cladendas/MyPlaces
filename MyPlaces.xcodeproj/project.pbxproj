@@ -14,6 +14,7 @@
 		6AFD64DC273160B3003944D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFD64DA273160B3003944D3 /* LaunchScreen.storyboard */; };
 		6AFD64E42731655C003944D3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD64E32731655C003944D3 /* MainViewController.swift */; };
 		6AFD64E62732CD23003944D3 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD64E52732CD23003944D3 /* CustomTableViewCell.swift */; };
+		6AFD64E82732DA47003944D3 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD64E72732DA47003944D3 /* Place.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		6AFD64DD273160B3003944D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AFD64E32731655C003944D3 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6AFD64E52732CD23003944D3 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		6AFD64E72732DA47003944D3 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				6AFD64D1273160AB003944D3 /* SceneDelegate.swift */,
 				6AFD64E32731655C003944D3 /* MainViewController.swift */,
 				6AFD64E52732CD23003944D3 /* CustomTableViewCell.swift */,
+				6AFD64E72732DA47003944D3 /* Place.swift */,
 				6AFD64D5273160AB003944D3 /* Main.storyboard */,
 				6AFD64D8273160B3003944D3 /* Assets.xcassets */,
 				6AFD64DA273160B3003944D3 /* LaunchScreen.storyboard */,
@@ -144,6 +147,7 @@
 				6AFD64D0273160AB003944D3 /* AppDelegate.swift in Sources */,
 				6AFD64E62732CD23003944D3 /* CustomTableViewCell.swift in Sources */,
 				6AFD64D2273160AB003944D3 /* SceneDelegate.swift in Sources */,
+				6AFD64E82732DA47003944D3 /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
