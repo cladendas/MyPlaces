@@ -9,6 +9,7 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
 
+    @IBOutlet var imageOfPlace: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,7 +65,7 @@ extension NewPlaceViewController: UITextFieldDelegate {
 
 // MARK: Work with image
 
-extension NewPlaceViewController {
+extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     ///Выбор изображения из указанного источника
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
@@ -72,6 +73,9 @@ extension NewPlaceViewController {
         //проверка доступности источника изображения
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()
+            
+            imagePicker.delegate = self
+            
             //возможность редактировать изображение
             imagePicker.allowsEditing = true
             //указываем тип источника изображения
@@ -81,4 +85,11 @@ extension NewPlaceViewController {
         
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        imageOfPlace.image = info[.editedImage] as? UIImage
+        imageOfPlace.contentMode = .scaleAspectFill
+        imageOfPlace.clipsToBounds = true
+        dismiss(animated: true)
+    }
 }
