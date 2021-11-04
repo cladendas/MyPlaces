@@ -22,6 +22,9 @@ class NewPlaceViewController: UITableViewController {
         //скрывать клавиатуру при нажатии на ячейку
         if indexPath.row == 0 {
             
+            let cameraIcon = #imageLiteral(resourceName: "icons8-camera")
+            let photoIcon = #imageLiteral(resourceName: "icons8-image")
+            
             //меню для установки изображения
             let actionSheep = UIAlertController(title: nil,
                                                 message: nil,
@@ -32,10 +35,22 @@ class NewPlaceViewController: UITableViewController {
                 self.chooseImagePicker(source: .camera)
             }
             
+            //устанавливаем картинку возле кнопки в алерете
+            camera.setValue(cameraIcon, forKey: "image")
+            
+            //текст кнопки выравниваем по левому краю
+            camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            
             //действие для алерта: изображение из библиотеки
             let photo = UIAlertAction(title: "Photo", style: .default) { _ in
                 self.chooseImagePicker(source: .photoLibrary)
             }
+            
+            //устанавливаем картинку возле кнопки в алерете
+            photo.setValue(photoIcon, forKey: "image")
+            
+            //текст кнопки выравниваем по левому краю
+            photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             
