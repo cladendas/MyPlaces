@@ -5,28 +5,37 @@
 //  Created by cladendas on 03.11.2021.
 //
 
+import RealmSwift
 import UIKit
 
-struct Place {
+//Для можели Realm нужен именно класс, наследуемый от Object
+//Все св-ва класса объявляются @objc dynamic
+class Place: Object {
     
-    var name: String
-    var location: String?
-    var type: String?
-    var image: UIImage?
-    var restaurantImage: String?
+    @objc dynamic var name = ""
+    @objc dynamic var location: String?
+    @objc dynamic var type: String?
+    @objc dynamic var imageData: Data?
     
-    static var restaurantNames = [
+    var restaurantNames = [
         "Краснодарский парень", "БК на Красной возле Мира", "Subway в Доме книги", "ЦарьХлеб", "ChiChi", "PhoBo"
     ]
     
-    static func getPlaces() -> [Place] {
-        
-        var places = [Place]()
-        
+    func savePlaces() {
+
         for place in restaurantNames {
-            places.append(Place(name: place, location: "Краснодар", type: "Бар", image: nil, restaurantImage: place))
+            
+            let image = UIImage(named: place)
+            guard let imageData = image?.pngData() else { return }
+            
+            let newPlace = Place()
+            newPlace.name = place
+            newPlace.location = "Krasnodar"
+            newPlace.type = "Bar"
+            newPlace.imageData = imageData
+            
+            StorageManager.saveObject(newPlace)
         }
         
-        return places
     }
 }
