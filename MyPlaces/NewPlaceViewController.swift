@@ -9,6 +9,8 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
     
+    ///Выбранная для редактирования ячейка
+    var currentPlace: Place?
     ///проверка, что пользователь добавил своё изображение
     var imageIsChanged = false
 
@@ -33,6 +35,8 @@ class NewPlaceViewController: UITableViewController {
         
         //метод срабатывает при редактировании поля
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        
+        setupEditScreen()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -83,7 +87,7 @@ class NewPlaceViewController: UITableViewController {
         }
     }
     
-    func saveNewPlace() {
+    func savePlace() {
         
         var image: UIImage?
         
@@ -101,8 +105,46 @@ class NewPlaceViewController: UITableViewController {
                              type: placeType.text,
                              imageData: imageData)
         
-        StorageManager.saveObject(newPlace)
+        if currentPlace != nil {
+            try! realm.write({
+                currentPlace?.name = newPlace.name
+                currentPlace?.location = newPlace.location
+                currentPlace?.type = newPlace.type
+                currentPlace?.imageData = newPlace.imageData
+            })
+        } else {
+            StorageManager.saveObject(newPlace)
+        }
         
+        
+    }
+    
+    ///окно редактирования выбранной ячейки
+    private func setupEditScreen() {
+        if currentPlace != nil {
+            
+            setupNavigationBar()
+            imageIsChanged = true
+            
+            guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            placeImage.image = image
+            placeImage.contentMode = .scaleAspectFit
+            placeName.text = currentPlace?.name
+            placeLocation.text = currentPlace?.location
+            placeType.text = currentPlace?.type
+        }
+    }
+    
+    private func setupNavigationBar() {
+        
+        ///Убирает название заголовка возле кнопки возврата
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
     }
 
 }
