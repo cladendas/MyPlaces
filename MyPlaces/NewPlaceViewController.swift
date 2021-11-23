@@ -9,8 +9,6 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
     
-    var newPlace = Place()
-    
     ///проверка, что пользователь добавил своё изображение
     var imageIsChanged = false
 
@@ -27,11 +25,6 @@ class NewPlaceViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        DispatchQueue.main.async {
-            self.newPlace.savePlaces()
-        }
-        
-        
         //Чтобы убрать разлиновку в пустых строках
         tableView.tableFooterView = UIView()
         
@@ -101,12 +94,14 @@ class NewPlaceViewController: UITableViewController {
             image = #imageLiteral(resourceName: "icons8-tableware")
         }
         
-        //создаётся экземпляр Place по введённым пользователем значениям
-//        newPlace = Place(name: placeName.text!,
-//                         location: placeLocation.text,
-//                         type: placeType.text,
-//                         image: image,
-//                         restaurantImage: nil)
+        let imageData = image?.pngData()
+        
+        let newPlace = Place(name: placeName.text!,
+                             location: placeLocation.text,
+                             type: placeType.text,
+                             imageData: imageData)
+        
+        StorageManager.saveObject(newPlace)
         
     }
 
