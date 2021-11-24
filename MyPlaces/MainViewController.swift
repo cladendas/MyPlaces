@@ -11,10 +11,24 @@ import RealmSwift
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     //Results автообновляемый тип контейнера, всегда отображает текущее состояние хранилища в текущем потоке, можно одновременно записывать и считывать данные, работает, как массив
-    var places: Results<Place>!
+    private var places: Results<Place>!
+    ///отфильтрованные записи
+    private var filteredPlaces: Results<Place>!
+    ///проверка строки поиска на пустоту
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    ///проверка, что активирован поиск
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
     
     ///направление сорторовки: по возрастанию
-    var ascendingSorting = true
+    private var ascendingSorting = true
+    
+    ///строка поиска. nil говорит, что для отображения результата поиска будет использоваться ViewController, в котором происходит поиск
+    private let searchController = UISearchController(searchResultsController: nil)
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
@@ -50,18 +64,38 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         //получаем данные из БД
         places = realm.objects(Place.self)
+        
+        ///получатель результата поиска - сам класс
+        searchController.searchResultsUpdater = self
+        ///позволит взаимодействовать с результатами поиска
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        ///позволяет отпустить строку поиска при переходе на другой экран
+        definesPresentationContext = true
     }
 
     // MARK: - Table view data source
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if isFiltering {
+            return filteredPlaces.count
+        }
+        
         return places.isEmpty ? 0 : places.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
 
-        let place = places[indexPath.row]
+        var place = Place()
+        
+        if isFiltering {
+            place = filteredPlaces[indexPath.row]
+        } else {
+            place = places[indexPath.row]
+        }
 
         cell.nameLabel?.text = place.name
         cell.locationLabel.text = place.location
@@ -100,7 +134,13 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if segue.identifier == "showDetail" {
             ///получение индекса выбранной ячейки
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let place = places[indexPath.row]
+            var place = Place()
+            
+            if isFiltering {
+                place = filteredPlaces[indexPath.row]
+            } else {
+                place = places[indexPath.row]
+            }
             
             let newPlaceVC = segue.destination as! NewPlaceViewController
             newPlaceVC.currentPlace = place
@@ -116,6 +156,18 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
         }
         
+        tableView.reloadData()
+    }
+}
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    ///запрос в БД для получчения отсортированных данных  отображения их на экране
+    private func filterContentForSearchText(_ searchText: String) {
+        filteredPlaces = places.filter("name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
         tableView.reloadData()
     }
 }
