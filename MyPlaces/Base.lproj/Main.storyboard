@@ -154,7 +154,7 @@
                     <navigationItem key="navigationItem" title="New Place" largeTitleDisplayMode="always" id="DtJ-64-jqv">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4zP-9V-PD7">
                             <connections>
-                                <action selector="cancelAction:" destination="P79-PN-7qb" id="mgf-p6-xta"/>
+                                <action selector="cancelAction:" destination="P79-PN-7qb" id="eyQ-MU-QIr"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="KdQ-Ou-B6w">
@@ -240,7 +240,7 @@
                                             <outlet property="locationLabel" destination="Ffx-2j-9My" id="UK8-CT-Rcp"/>
                                             <outlet property="nameLabel" destination="NGF-KK-vvC" id="G0J-YW-9du"/>
                                             <outlet property="typeLabel" destination="Nve-4R-d5R" id="Mvg-7y-fQ1"/>
-                                            <segue destination="P79-PN-7qb" kind="show" id="hho-S7-Ixj"/>
+                                            <segue destination="P79-PN-7qb" kind="show" identifier="showDetail" id="hho-S7-Ixj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -255,6 +255,9 @@
                                     <segment title="Date"/>
                                     <segment title="Name"/>
                                 </segments>
+                                <connections>
+                                    <action selector="sortSelection:" destination="cfF-z2-N4i" eventType="valueChanged" id="cAL-ns-8q2"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OSw-in-BFu"/>
@@ -270,7 +273,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My places" largeTitleDisplayMode="never" id="CbI-ju-c0m">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="AZ" id="9Lv-TK-AbS"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="AZ" id="9Lv-TK-AbS">
+                            <connections>
+                                <action selector="reversedSorting:" destination="cfF-z2-N4i" id="kqI-qZ-q9Z"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7ML-NL-m7G">
                             <connections>
                                 <segue destination="ZKC-ZJ-bYj" kind="presentation" modalPresentationStyle="fullScreen" id="ju8-LG-3TZ"/>
@@ -278,6 +285,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="reversedSortingButton" destination="9Lv-TK-AbS" id="YNv-k3-fiD"/>
+                        <outlet property="segmentedControl" destination="x53-uJ-dpB" id="hWt-gg-Fap"/>
                         <outlet property="tableView" destination="gOB-dX-q2i" id="Em4-Yg-A6L"/>
                     </connections>
                 </viewController>

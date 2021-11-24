@@ -9,12 +9,41 @@ import UIKit
 import RealmSwift
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    @IBOutlet var tableView: UITableView!
-    
     
     //Results автообновляемый тип контейнера, всегда отображает текущее состояние хранилища в текущем потоке, можно одновременно записывать и считывать данные, работает, как массив
     var places: Results<Place>!
+    
+    ///направление сорторовки: по возрастанию
+    var ascendingSorting = true
+
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    @IBOutlet var reversedSortingButton: UIBarButtonItem!
+    
+    @IBAction func sortSelection(_ sender: UISegmentedControl) {
+        sorting()
+    }
+    
+    @IBAction func reversedSorting(_ sender: Any) {
+        
+        ascendingSorting.toggle()
+        
+        if ascendingSorting {
+            reversedSortingButton.image = #imageLiteral(resourceName: "AZ")
+        } else {
+            reversedSortingButton.image = #imageLiteral(resourceName: "ZA")
+        }
+        
+        sorting()
+    }
+    
+    @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
+        
+        guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
+        
+        newPlaceVC.savePlace()
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,12 +107,15 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-
-    @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
+    ///сортирует ячейки по выбранному основанию и направлению
+    private func sorting() {
         
-        guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
+        if segmentedControl.selectedSegmentIndex == 0 {
+            places = places.sorted(byKeyPath: "date", ascending: ascendingSorting)
+        } else {
+            places = places.sorted(byKeyPath: "name", ascending: ascendingSorting)
+        }
         
-        newPlaceVC.savePlace()
         tableView.reloadData()
     }
 }
