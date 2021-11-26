@@ -121,7 +121,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
-    ///Метод подходит для создания одного действия при сваймпе справа на лево
+    ///Метод подходит для создания одного действия при свайпе справа налево
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let place = places[indexPath.row]
@@ -165,7 +165,7 @@ extension MainViewController: UISearchResultsUpdating {
         filterContentForSearchText(searchController.searchBar.text!)
     }
     
-    ///запрос в БД для получчения отсортированных данных  отображения их на экране
+    ///запрос в БД для получения отсортированных данных для  отображения их на экране
     private func filterContentForSearchText(_ searchText: String) {
         filteredPlaces = places.filter("name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
         tableView.reloadData()
