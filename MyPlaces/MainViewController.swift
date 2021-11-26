@@ -108,6 +108,12 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
     }
     
+    ///когда выбираем ячейку для редактирования, но не вносим изменения и возвращаемся на экран со списком мест, выбранная ячейка отображаетя выделенно
+    ///чтобы убрать это выделение, используется следующий метод
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     ///Метод пожходит для создания нескольких действий при свайпе справа на лево
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         

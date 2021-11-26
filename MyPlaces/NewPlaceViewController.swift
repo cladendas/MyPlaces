@@ -28,7 +28,10 @@ class NewPlaceViewController: UITableViewController {
         super.viewDidLoad()
 
         //Чтобы убрать разлиновку в пустых строках
-        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0,
+                                                         y: 0,
+                                                         width: tableView.frame.size.width,
+                                                         height: 1))
         
         //Нельзя сохранять, если наименование места пусто
         saveButton.isEnabled = false
