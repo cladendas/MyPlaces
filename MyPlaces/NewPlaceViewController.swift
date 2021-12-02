@@ -9,8 +9,8 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
     
-    ///Выбранная для редактирования ячейка
-    var currentPlace: Place?
+    ///Выбранная для редактирования ячейка. Используется только при редактировании существующего объекта (все его св-ва уже инициализированы), поэтому принудительно извлекается опционал
+    var currentPlace: Place!
     ///проверка, что пользователь добавил своё изображение
     var imageIsChanged = false
 
@@ -19,6 +19,8 @@ class NewPlaceViewController: UITableViewController {
     @IBOutlet var placeName: UITextField!
     @IBOutlet var placeLocation: UITextField!
     @IBOutlet var placeType: UITextField!
+    ///Стэк-вью с рейтнгом
+    @IBOutlet var ratingControl: RatingControl!
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
@@ -103,10 +105,12 @@ class NewPlaceViewController: UITableViewController {
         
         let imageData = image?.pngData()
         
+        ///используется для сохранения новой записи в БД
         let newPlace = Place(name: placeName.text!,
                              location: placeLocation.text,
                              type: placeType.text,
-                             imageData: imageData)
+                             imageData: imageData,
+                             rating: Double(ratingControl.rating))
         
         if currentPlace != nil {
             try! realm.write({
@@ -114,6 +118,7 @@ class NewPlaceViewController: UITableViewController {
                 currentPlace?.location = newPlace.location
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
+                currentPlace?.rating = newPlace.rating
             })
         } else {
             StorageManager.saveObject(newPlace)
@@ -135,6 +140,7 @@ class NewPlaceViewController: UITableViewController {
             placeName.text = currentPlace?.name
             placeLocation.text = currentPlace?.location
             placeType.text = currentPlace?.type
+            ratingControl.rating = Int(currentPlace.rating)
         }
     }
     

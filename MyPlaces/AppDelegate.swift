@@ -15,8 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        ///текущая версия БД. 3 - добавлен рейтинг
+        let schemaVersion: UInt64 = 3
+        
         let config = Realm.Configuration(
-            schemaVersion: 2)
+            schemaVersion: schemaVersion)
         // Use this configuration when opening realms
         Realm.Configuration.defaultConfiguration = config
         
